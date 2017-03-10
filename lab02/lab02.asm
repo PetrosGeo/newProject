@@ -13,9 +13,53 @@ main:
         addu       $v1, $zero, $a0     # The address of longest word
 
         ########################################################################
-        #  Write your code here
-        # NOTE: Don't print out the results! Automatic testing will get the final
-        #  value of $v1 and check if it is correct
+		      
+        add	$t7, $0, $0		
+        add	$t6, $0, $0		
+        add	$t5, $0, $a0		
+        add	$t4, $0, $a0		
+        
+        li 	$t3, 32			
+        
+loop:
+	lb	$t2, 0($a0)		
+	addi	$a0, $a0,1		
+	beq	$t2, $0 NoWord	
+	beq	$t2, $t1 CounterReset	
+	addi	$t7, $t7,1		
+	j loop				
+	
+CounterReset:
+	beq	$t6, $t7, CounterRemain	
+	slt	$s0, $t6,$t0		
+	bne	$s0, $0, CounterChange		
+	add	$t5, $0,$a0		
+	add	$t7, $0,$0		
+	j loop				
+	
+CounterChange:
+	add	$t6, $0, $t7				
+	add	$t4, $0, $t5		
+	add	$t7, $0, $0		
+	add	$t5, $0, $a0		
+	j loop				
+	
+CounterRemain:
+	add	$t4, $0, $t5		
+	add	$t5, $0, $a0		
+	add	$t7, $0, $0		
+	j loop				
+	
+NoWord:
+	bne	$t7, $0 resetAndExit	
+	add	$v1, $0, $t4			
+	j exit
+       
+resetAndExit:
+	slt	$s0,$t6,$t7				
+	bne	$s0,$0,CounterChange		
+	add	$v1,$0,$t4	
+
         ########################################################################
         
 exit: 
