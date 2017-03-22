@@ -31,6 +31,13 @@ initial begin
   d = 0;
   r = 1;
   #100 ;
+  a = 1;
+  b = 1;
+  c = 1;
+  d = 0;
+  r = 1;
+  #100 ;
 end
 
 endmodule
+
